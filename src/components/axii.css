@@ -1,12 +1,68 @@
-.games{
+.video-container {
+  display: flex;
+  flex-direction: column;
+}
+
+.video-section {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 3rem 1rem;
+  padding: 3rem 0;
+  margin: 0 1.5rem;
+  border-top: 4px solid #ccc;
+}
+
+.thumbnail {
+  position: relative;
+  display: flex;
+}
+.thumbnail::before {
+  position: absolute;
+  display: flex;
+}
+
+.thumbnail-image {
+  height: 150px;
+  width: 250px;
+  border-radius: 5%;
+  object-fit: cover;
+}
+
+.thumbnail-image:hover {
+  transform: scale(1.1);
+  transition: 0.5s ease;
+  cursor: pointer;
+}
+
+.game-icon {
+  height: 36px;
+  margin-right: 0.75rem;
+  width: 36px;
+  object-fit: cover;
+  border-radius: 50%;
+  margin-top: 0.5rem;
+}
+
+.video-bottom {
+  height: 70px;
+  display: flex;
+  align-items: flex-start;
+  margin-top: 1rem;
   
 }
 
-.pic{
-    width:20%;
-    height:40%;
+.game-details {
+  
+
+  display: flex;
+  flex-direction: column;
+  /* margin-top: 0.1rem; */
 }
 
-.card{
-    list-style:none;
+.game-title{
+    font-size:15px;
+}
+
+span{
+    font-size: 13px;
 }
