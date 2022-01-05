@@ -1,11 +1,13 @@
 import logo from './logo.svg';
-import Axii from './components/Axii';
+import Home from './pages/Home';
 import './App.css'
 
 function App() {
+
+ 
   return (
     <div className="App">
-    <Axii />
+    <Home />
     </div>
   );
 }
