@@ -1,14 +1,17 @@
 import React, { useEffect, useState } from 'react'
 import InfiniteScroll from 'react-infinite-scroll-component'
+import { Link } from 'react-router-dom'
 import http from '../services/httpServices'
 import './axii.css'
 
 function Axii(props) {
   const [games, setGames] = useState([])
   const [page, setPages] = useState(2)
+  const [eq, setEq] = useState('')
 
   useEffect(() => {
     async function getGamers() {
+      console.log(games)
       try {
         const { data: games } = await http.get(`/games?page=1&page_size=20`, {
           params: { key: '380489e110b346de861297ff98597e4c' },
@@ -32,7 +35,6 @@ function Axii(props) {
           params: { key: '380489e110b346de861297ff98597e4c' },
         }
       )
-
       return games.results
     } catch (error) {
       console.log(error)
@@ -58,6 +60,7 @@ function Axii(props) {
         </p>
       }
     >
+      <input value={eq} onChange={(e) => setEq(e.target.value)} />
       <div className="container">
         <div className="videos">
           <section>
@@ -65,10 +68,12 @@ function Axii(props) {
               <ul className="video-section">
                 {games.map((item) => (
                   <li className="video-container" key={item.id}>
-                    <img
-                      className="thumbnail-image"
-                      src={item.background_image}
-                    />{' '}
+                    <Link to={`/game/${item.id}`}>
+                      <img
+                        className="thumbnail-image"
+                        src={item.background_image}
+                      />{' '}
+                    </Link>
                     <div className="video-bottom">
                       <img className="game-icon" src={item.background_image} />
                       <div className="game-details">

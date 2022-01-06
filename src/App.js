@@ -1,15 +1,19 @@
-import logo from './logo.svg';
-import Home from './pages/Home';
+import logo from './logo.svg'
+import Home from './pages/Home'
+import { Routes, Route } from 'react-router-dom'
+import GameDetails from './components/GameDetails'
 import './App.css'
 
-function App() {
 
- 
+function App() {
   return (
     <div className="App">
-    <Home />
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/game/:gameId" element={<GameDetails />} />
+      </Routes>
     </div>
-  );
+  )
 }
 
-export default App;
+export default App
