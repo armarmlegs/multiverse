@@ -6,24 +6,25 @@ import './axii.css'
 
 function Axii(props) {
   const [games, setGames] = useState([])
+  const [loading, setLoading] = useState(true)
+  const [search, setSearch] = useState('')
   const [page, setPages] = useState(2)
-  const [eq, setEq] = useState('')
 
   useEffect(() => {
     async function getGamers() {
       console.log(games)
       try {
-        const { data: games } = await http.get(`/games?page=1&page_size=20`, {
+        const { data: games } = await http.get(`/games`, {
           params: { key: '380489e110b346de861297ff98597e4c' },
         })
 
         setGames(games.results)
+        setLoading(false)
         console.log(games.next)
       } catch (error) {
         console.log(error)
       }
     }
-
     getGamers()
   }, [])
 
@@ -48,9 +49,13 @@ function Axii(props) {
     setGames([...games, ...gamesNext])
   }
 
+  const filteredGames = games.filter((game) => {
+    return game.name.toLowerCase().includes(search.toLowerCase())
+  })
+
   return (
     <InfiniteScroll
-      dataLength={games.length} //This is important field to render the next data
+      dataLength={games.length} 
       next={fetchData}
       hasMore={true}
       loader={<h4>Loading...</h4>}
@@ -60,22 +65,33 @@ function Axii(props) {
         </p>
       }
     >
-      <input value={eq} onChange={(e) => setEq(e.target.value)} />
+      {loading && <div>Loading games..</div>}
+
       <div className="container">
+        <input
+          type="text"
+          placeholder="type a game title"
+          onChange={(e) => setSearch(e.target.value)}
+        />
         <div className="videos">
           <section>
             <article>
               <ul className="video-section">
-                {games.map((item) => (
+                {filteredGames.map((item) => (
                   <li className="video-container" key={item.id}>
                     <Link to={`/game/${item.id}`}>
                       <img
                         className="thumbnail-image"
                         src={item.background_image}
+                        alt="https://picsum.photos/200"
                       />{' '}
                     </Link>
                     <div className="video-bottom">
-                      <img className="game-icon" src={item.background_image} />
+                      <img
+                        className="game-icon"
+                        src={item.background_image}
+                        alt="https://picsum.photos/200"
+                      />
                       <div className="game-details">
                         <div className="game-metadata">
                           <h3 className="game-title">{item.name}</h3>
@@ -93,26 +109,7 @@ function Axii(props) {
               </ul>
             </article>
           </section>
-          <h1>{games.next}</h1>
         </div>
-
-        {/* <section className='card-section'>
-            <article className="card-container">
-
-      <ul className="game">
-        {posts.map((item) => (
-          <li className="card" key={item.id}>
-            <img className="pic" src={item.background_image} />{' '}
-          </li>
-        ))}
-      </ul>
-
-
-            </article>
-
-
-
-        </section> */}
       </div>
     </InfiniteScroll>
   )

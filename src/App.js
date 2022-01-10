@@ -1,4 +1,4 @@
-import logo from './logo.svg'
+
 import Home from './pages/Home'
 import { Routes, Route } from 'react-router-dom'
 import GameDetails from './components/GameDetails'
