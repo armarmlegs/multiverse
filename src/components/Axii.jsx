@@ -1,26 +1,29 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, useContext } from 'react'
 import InfiniteScroll from 'react-infinite-scroll-component'
 import { Link } from 'react-router-dom'
 import http from '../services/httpServices'
 import './axii.css'
+import { UserContext } from '../pages/Home'
 
-function Axii(props) {
+function Axii() {
+  const value = useContext(UserContext)
   const [games, setGames] = useState([])
   const [loading, setLoading] = useState(true)
   const [search, setSearch] = useState('')
   const [page, setPages] = useState(2)
 
+
   useEffect(() => {
     async function getGamers() {
-      console.log(games)
+      
       try {
-        const { data: games } = await http.get(`/games`, {
+        const { data: games } = await http.get(`https://api.rawg.io/api/games`, {
           params: { key: '380489e110b346de861297ff98597e4c' },
         })
 
         setGames(games.results)
+        console.log(games.results)
         setLoading(false)
-        console.log(games.next)
       } catch (error) {
         console.log(error)
       }
@@ -28,10 +31,11 @@ function Axii(props) {
     getGamers()
   }, [])
 
+
   const fetchGamers = async () => {
     try {
       const { data: games } = await http.get(
-        `/games?page=${page}&page_size=20`,
+        `https://api.rawg.io/api/games?page=${page}&page_size=20`,
         {
           params: { key: '380489e110b346de861297ff98597e4c' },
         }
@@ -45,17 +49,16 @@ function Axii(props) {
   const fetchData = async () => {
     setPages(page + 1)
     const gamesNext = await fetchGamers()
-    console.log(gamesNext)
     setGames([...games, ...gamesNext])
   }
 
   const filteredGames = games.filter((game) => {
-    return game.name.toLowerCase().includes(search.toLowerCase())
+    return game.slug.toLowerCase().includes(search.toLowerCase())
   })
 
   return (
     <InfiniteScroll
-      dataLength={games.length} 
+      dataLength={games.length}
       next={fetchData}
       hasMore={true}
       loader={<h4>Loading...</h4>}
@@ -73,6 +76,7 @@ function Axii(props) {
           placeholder="type a game title"
           onChange={(e) => setSearch(e.target.value)}
         />
+        <h1>Goodmorning, {value}</h1>
         <div className="videos">
           <section>
             <article>
@@ -112,6 +116,7 @@ function Axii(props) {
         </div>
       </div>
     </InfiniteScroll>
+   
   )
 }
 

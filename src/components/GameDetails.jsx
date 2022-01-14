@@ -10,9 +10,12 @@ function GameDetails(props) {
   useEffect(() => {
     async function getGame() {
       try {
-        const { data: details } = await http.get(`/games/${gameId}`, {
-          params: { key: '380489e110b346de861297ff98597e4c' },
-        })
+        const { data: details } = await http.get(
+          `https://api.rawg.io/api/games/${gameId}`,
+          {
+            params: { key: '380489e110b346de861297ff98597e4c' },
+          }
+        )
         setDetails(details)
         console.log(details)
         console.log(JSON.stringify(details.esrb_rating.name))
@@ -21,15 +24,15 @@ function GameDetails(props) {
       }
     }
     getGame()
-  }, [])
+  }, [gameId])
 
   return (
     <Fragment>
       <div className="superContainer">
         <img src={details.background_image} alt="" className="image-display" />
         <div>
-        <h4>{details.name}</h4>
-        <p>{details.description_raw}</p>
+          <h4>{details.name}</h4>
+          <p>{details.description_raw}</p>
         </div>
       </div>
     </Fragment>
