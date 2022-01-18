@@ -1,14 +1,9 @@
 .super-container {
-    display: flex;
-	flex-direction: column;
-	flex-wrap: nowrap;
-	justify-content: space-between;
-	align-items: center;
-  border:1px solid red;
-}
-.godamn {
-  border:1px solid red;
-  
+  display: flex;
+  flex-direction: column;
+  flex-wrap: nowrap;
+  justify-content: space-between;
+  align-items: center;
 }
 
 .image-display {
@@ -19,30 +14,13 @@
 }
 
 @media screen and (min-width: 992px) {
-  .card {
-    /* display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    grid-gap: 1.5rem; */
-  }
-  .game-wrapper {
-    /* height: 100vh;
-    display: flex;
-    justify-content: center;
-    align-items: center; */
-  }
-  .product-imgs {
-    /* display: flex;
-    flex-direction: column;
-    justify-content: center; */
-  }
   .product-content {
     padding-top: 0;
   }
 
-.mage:hover {
-  transform: scale(1.1);
-  transition: 0.5s ease;
-  cursor: pointer;
-}
-
+  .mage:hover {
+    transform: scale(1.1);
+    transition: 0.5s ease;
+    cursor: pointer;
+  }
 }
