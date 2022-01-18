@@ -1,41 +1,52 @@
-import React, { useEffect, useState, Fragment } from 'react'
-import { useParams } from 'react-router-dom'
-import http from '../services/httpServices'
+import { useLocation } from 'react-router-dom'
 import './gameDetails.css'
+import { Typography } from '@mui/material'
+import { ImageList, ImageListItem, ListItem, List } from '@mui/material'
 
-function GameDetails(props) {
-  const { gameId } = useParams()
-  const [details, setDetails] = useState([])
+const GameDetails = (props) => {
+  const location = useLocation()
+  const { gameDets } = location.state
 
-  useEffect(() => {
-    async function getGame() {
-      try {
-        const { data: details } = await http.get(
-          `https://api.rawg.io/api/games/${gameId}`,
-          {
-            params: { key: '380489e110b346de861297ff98597e4c' },
-          }
-        )
-        setDetails(details)
-        console.log(details)
-        console.log(JSON.stringify(details.esrb_rating.name))
-      } catch (error) {
-        console.log(error)
-      }
-    }
-    getGame()
-  }, [gameId])
+  console.log(gameDets)
 
   return (
-    <Fragment>
-      <div className="superContainer">
-        <img src={details.background_image} alt="" className="image-display" />
-        <div>
-          <h4>{details.name}</h4>
-          <p>{details.description_raw}</p>
-        </div>
+    <div className="super-container">
+      <div>
+        <Typography variant="h2">{gameDets.name}</Typography>
+        <div className="godamn">
+          <Typography variant="caption">
+            Released Date :{gameDets.released}
+          </Typography>
+       
+        <Typography>Genres : </Typography>
+        <List>
+          {gameDets.genres.map((g) => (
+            <Typography variant="p" key={g.id}>{g.name}</Typography>
+            ))}
+        </List>
+            </div>
       </div>
-    </Fragment>
+
+
+      <img className="image-display" src={gameDets.background_image} alt="" />
+
+      {gameDets.platforms.map((r) => (
+        <div key={r.platform.id}>{r.platform.slug}</div>
+      ))}
+      <ImageList sx={{ width: 500, height: 450 }} cols={3} rowHeight={160}>
+        {gameDets.short_screenshots.map((item) => (
+          <ImageListItem key={item.image}>
+            <img
+              className="mage"
+              src={`${item.image}?w=164&h=164&fit=crop&auto=format`}
+              srcSet={`${item.image}?w=164&h=164&fit=crop&auto=format&dpr=2 2x`}
+              alt={item.id}
+              loading="lazy"
+            />
+          </ImageListItem>
+        ))}
+      </ImageList>
+    </div>
   )
 }
 

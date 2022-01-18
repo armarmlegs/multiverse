@@ -12,7 +12,8 @@ const ApiReponse = (props) => {
             <ul className="video-section">
               {props.game.map((item) => (
                 <li className="video-container" key={item.id}>
-                  <Link to={`/game/${item.id}`}>
+                  <Link to={`/game/${item.id}`}
+                  state={{gameDets : item}}>
                     <img
                       className="thumbnail-image"
                       src={item.background_image}
